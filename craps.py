@@ -7,15 +7,19 @@
 import random
 import array
 
-sessions = 10
+sessions = 100
 games = 50
 bankroll = 0
-starting_bankroll = 1000
+starting_bankroll = 800
 bet_amount = 10
 history = []
+best_result = -999999
+worst_result = 999999
 
 def PlaySession():
     global bankroll
+    global best_result
+    global worst_result
     for game in range(1, games+1):
         #print('Bankroll is {0}'.format(bankroll))
         #print('Playing game {0}'.format(game))
@@ -23,6 +27,10 @@ def PlaySession():
         if (bankroll <= 0):
             #print('BUSTED')
             break
+    if bankroll > best_result:
+        best_result = bankroll
+    if bankroll < worst_result:
+        worst_result = bankroll
 
 def PlayGame(bet):
     roll = RollDice()
@@ -65,12 +73,18 @@ def RollDice():
     #print('Rolled {0}'.format(dice1+dice2))
     return array.array('I', [dice1, dice2, dice1+dice2])
 
+print('Starting bankroll is {0}'.format(starting_bankroll))
+print('Playing {0} sessions with {1} games/points per session'.format(sessions, games))
+
 for session in range(1, sessions+1):
     bankroll = starting_bankroll
-    print('Starting Session {0}'.format(session))
+    #print('Starting Session {0}'.format(session))
     PlaySession()
     #print('Session ending bankroll is {0}'.format(bankroll))
     history.append(bankroll)
 
 average_result = sum(history)/len(history)
-print('Average result is {0}'.format(average_result))
+
+print('Average end result is {0}'.format(average_result-starting_bankroll))
+print('Best result is {0}'.format(best_result-starting_bankroll))
+print('Worst result is {0}'.format(worst_result-starting_bankroll))
