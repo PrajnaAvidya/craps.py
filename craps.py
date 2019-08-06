@@ -85,6 +85,6 @@ for session in range(1, sessions+1):
 
 average_result = sum(history)/len(history)
 
-print('Average end result is {0}'.format(average_result-starting_bankroll))
-print('Best result is {0}'.format(best_result-starting_bankroll))
-print('Worst result is {0}'.format(worst_result-starting_bankroll))
+print('Average end result is {0:+d}'.format(average_result-starting_bankroll))
+print('Best result is {0:+d}'.format(best_result-starting_bankroll))
+print('Worst result is {0:+d}'.format(worst_result-starting_bankroll))
