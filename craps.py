@@ -19,8 +19,7 @@ def PlaySession():
     global best_result
     global worst_result
     for game in range(1, points+1):
-        #print('Playing game {0}'.format(game))
-        pl += PlayGame(bet_amount)
+        pl += PlayGame(game, bet_amount)
     if pl > best_result:
         best_result = pl
     if pl < worst_result:
@@ -28,7 +27,8 @@ def PlaySession():
     print('Session result: {0:+d}'.format(pl))
     return pl
 
-def PlayGame(bet):
+def PlayGame(game_number, bet):
+    #print('Playing game {0}'.format(game_number))
     roll = RollDice()
     if roll[2] == 7 or roll[2] == 11:
         #print('WIN come out')
