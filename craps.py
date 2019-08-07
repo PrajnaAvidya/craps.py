@@ -7,30 +7,26 @@
 import random
 import array
 
-sessions = 100
-games = 50
-bankroll = 0
-starting_bankroll = 800
+sessions = 1000
+points = 50
 bet_amount = 10
 history = []
 best_result = -999999
 worst_result = 999999
 
 def PlaySession():
-    global bankroll
+    pl = 0
     global best_result
     global worst_result
-    for game in range(1, games+1):
-        #print('Bankroll is {0}'.format(bankroll))
+    for game in range(1, points+1):
         #print('Playing game {0}'.format(game))
-        bankroll += PlayGame(bet_amount)
-        if (bankroll <= 0):
-            #print('BUSTED')
-            break
-    if bankroll > best_result:
-        best_result = bankroll
-    if bankroll < worst_result:
-        worst_result = bankroll
+        pl += PlayGame(bet_amount)
+    if pl > best_result:
+        best_result = pl
+    if pl < worst_result:
+        worst_result = pl
+    print('Session result: {0:+d}'.format(pl))
+    return pl
 
 def PlayGame(bet):
     roll = RollDice()
@@ -47,14 +43,14 @@ def PlayGame(bet):
     payout = 1
 
     if point == 4 or point == 10:
-        sidebet = bet * 3;
-        payout = 2;
+        sidebet = bet * 3
+        payout = 2
     elif point == 5 or point == 9:
-        sidebet = bet * 4;
-        payout = 3/2;
+        sidebet = bet * 4
+        payout = 3/2
     elif point == 6 or point == 8:
-        sidebet = bet * 5;
-        payout = 6/5;
+        sidebet = bet * 5
+        payout = 6/5
 
     rollpoint = 0
     while rollpoint != 7:
@@ -73,18 +69,15 @@ def RollDice():
     #print('Rolled {0}'.format(dice1+dice2))
     return array.array('I', [dice1, dice2, dice1+dice2])
 
-print('Starting bankroll is {0}'.format(starting_bankroll))
-print('Playing {0} sessions with {1} games/points per session'.format(sessions, games))
+# todo bet amount
+print('Playing {0} sessions\n'.format(sessions))
 
 for session in range(1, sessions+1):
-    bankroll = starting_bankroll
-    #print('Starting Session {0}'.format(session))
-    PlaySession()
-    #print('Session ending bankroll is {0}'.format(bankroll))
-    history.append(bankroll)
+    pl = PlaySession()
+    history.append(pl)
 
 average_result = sum(history)/len(history)
 
-print('Average end result is {0:+d}'.format(average_result-starting_bankroll))
-print('Best result is {0:+d}'.format(best_result-starting_bankroll))
-print('Worst result is {0:+d}'.format(worst_result-starting_bankroll))
+print('\nAverage p/l for {0} sessions of {1} points with {2} pass bet and full odds: {3:+d}'.format(sessions, points, bet_amount, average_result))
+print('Best result is {0:+d}'.format(best_result))
+print('Worst result is {0:+d}'.format(worst_result))
