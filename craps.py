@@ -7,9 +7,13 @@
 import random
 import array
 
-sessions = 1000
-points = 50
-bet_amount = 10
+# parameters
+sessions = 25
+points = 25
+bet_amount = 25
+stop_loss = 400
+
+# stats vars
 history = []
 best_result = -999999
 worst_result = 999999
@@ -20,6 +24,8 @@ def PlaySession():
     global worst_result
     for game in range(1, points+1):
         pl += PlayGame(game, bet_amount)
+        if stop_loss > 0 and pl <= -stop_loss:
+            break
     if pl > best_result:
         best_result = pl
     if pl < worst_result:
